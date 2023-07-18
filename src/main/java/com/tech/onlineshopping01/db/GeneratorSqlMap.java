@@ -10,7 +10,7 @@ public class GeneratorSqlMap {
     public void generator() throws Exception {
         List<String> warnings= new ArrayList<String>();
         File configFile = new
-                File("src/main/resources/generatorConfig.xml");
+                File("src/main/resources/generateConfig.xml");
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(true);
@@ -21,7 +21,7 @@ public class GeneratorSqlMap {
     }
     public static void main(String[] args) throws Exception {
         try {
-            GeneratorSqlmap generatorSqlmap = new GeneratorSqlmap();
+            GeneratorSqlMap generatorSqlmap = new GeneratorSqlMap();
             generatorSqlmap.generator();
         } catch (Exception e) {
             e.printStackTrace();

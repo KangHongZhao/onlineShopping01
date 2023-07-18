@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @Data
-public class User {
+public class online_User {
     String userName;
     String userEmail;
 

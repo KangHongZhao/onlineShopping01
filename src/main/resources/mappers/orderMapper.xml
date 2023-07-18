@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tech.onlineshopping01.db.mappers.orderMapper">
+  <resultMap id="BaseResultMap" type="com.tech.onlineshopping01.db.po.order">
+    <id column="orderId" jdbcType="INTEGER" property="orderid" />
+    <result column="commodityId" jdbcType="INTEGER" property="commodityid" />
+    <result column="orderNum" jdbcType="VARCHAR" property="ordernum" />
+    <result column="orderStatus" jdbcType="INTEGER" property="orderstatus" />
+    <result column="orderAmount" jdbcType="INTEGER" property="orderamount" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="payTime" jdbcType="TIMESTAMP" property="paytime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orderId, commodityId, orderNum, orderStatus, orderAmount, userId, createTime, payTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </select>
+  <select id="getOrderByOrderNum" resultType="com.tech.onlineshopping01.db.po.order">
+    select
+    <include refid="Base_Column_List" />
+    from onlineshopping.order
+    where orderNum = #{orderNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tech.onlineshopping01.db.po.order">
+    insert into onlineshopping.order (commodityId, orderNum,
+      orderStatus, orderAmount, userId, 
+      createTime, payTime)
+    values (#{commodityid,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR},
+      #{orderstatus,jdbcType=INTEGER}, #{orderamount,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{paytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tech.onlineshopping01.db.po.order">
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        orderId,
+      </if>
+      <if test="commodityid != null">
+        commodityId,
+      </if>
+      <if test="ordernum != null">
+        orderNum,
+      </if>
+      <if test="orderstatus != null">
+        orderStatus,
+      </if>
+      <if test="orderamount != null">
+        orderAmount,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="paytime != null">
+        payTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="commodityid != null">
+        #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderamount != null">
+        #{orderamount,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tech.onlineshopping01.db.po.order">
+    update order
+    <set>
+      <if test="commodityid != null">
+        commodityId = #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        orderNum = #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null">
+        orderStatus = #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderamount != null">
+        orderAmount = #{orderamount,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tech.onlineshopping01.db.po.order">
+    update order
+    set commodityId = #{commodityid,jdbcType=INTEGER},
+      orderNum = #{ordernum,jdbcType=VARCHAR},
+      orderStatus = #{orderstatus,jdbcType=INTEGER},
+      orderAmount = #{orderamount,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      payTime = #{paytime,jdbcType=TIMESTAMP}
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+</mapper>

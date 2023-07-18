@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tech.onlineshopping01.db.mappers.commodityMapper">
+  <resultMap id="BaseResultMap" type="com.tech.onlineshopping01.db.po.commodity">
+    <id column="commodityId" jdbcType="INTEGER" property="commodityid" />
+    <result column="commodityName" jdbcType="VARCHAR" property="commodityname" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="totalStock" jdbcType="INTEGER" property="totalstock" />
+    <result column="availableStock" jdbcType="INTEGER" property="availablestock" />
+    <result column="sellerId" jdbcType="INTEGER" property="sellerid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commodityId, commodityName, price, description, totalStock, availableStock, sellerId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commodity
+    where commodityId = #{commodityid,jdbcType=INTEGER}
+  </select>
+  <select id="listCommoditiesByUserId" resultType="com.tech.onlineshopping01.db.po.commodity">
+    select
+    <include refid="Base_Column_List" />
+    from commodity
+    where sellerId = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commodity
+    where commodityId = #{commodityid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tech.onlineshopping01.db.po.commodity">
+    insert into commodity (commodityId, commodityName, price, 
+      description, totalStock, availableStock, 
+      sellerId)
+    values (#{commodityid,jdbcType=INTEGER}, #{commodityname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
+      #{description,jdbcType=VARCHAR}, #{totalstock,jdbcType=INTEGER}, #{availablestock,jdbcType=INTEGER}, 
+      #{sellerid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tech.onlineshopping01.db.po.commodity">
+    insert into commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commodityid != null">
+        commodityId,
+      </if>
+      <if test="commodityname != null">
+        commodityName,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="totalstock != null">
+        totalStock,
+      </if>
+      <if test="availablestock != null">
+        availableStock,
+      </if>
+      <if test="sellerid != null">
+        sellerId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commodityid != null">
+        #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="commodityname != null">
+        #{commodityname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalstock != null">
+        #{totalstock,jdbcType=INTEGER},
+      </if>
+      <if test="availablestock != null">
+        #{availablestock,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null">
+        #{sellerid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tech.onlineshopping01.db.po.commodity">
+    update commodity
+    <set>
+      <if test="commodityname != null">
+        commodityName = #{commodityname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalstock != null">
+        totalStock = #{totalstock,jdbcType=INTEGER},
+      </if>
+      <if test="availablestock != null">
+        availableStock = #{availablestock,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null">
+        sellerId = #{sellerid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where commodityId = #{commodityid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tech.onlineshopping01.db.po.commodity">
+    update commodity
+    set commodityName = #{commodityname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      description = #{description,jdbcType=VARCHAR},
+      totalStock = #{totalstock,jdbcType=INTEGER},
+      availableStock = #{availablestock,jdbcType=INTEGER},
+      sellerId = #{sellerid,jdbcType=INTEGER}
+    where commodityId = #{commodityid,jdbcType=INTEGER}
+  </update>
+</mapper>

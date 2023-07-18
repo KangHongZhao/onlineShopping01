@@ -1,6 +1,6 @@
 package com.tech.onlineshopping01.config;
 
-import com.tech.onlineshopping01.module.User;
+import com.tech.onlineshopping01.module.online_User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 public class UserConfig {
     @Bean
-    public User getUser() {
-        return User.builder().userName("Nobody").userEmail("Nobody@gmail.com").build();
+    public online_User getUser() {
+        return online_User.builder().userName("Nobody").userEmail("Nobody@gmail.com").build();
     }
 }
