@@ -120,4 +120,9 @@
       sellerId = #{sellerid,jdbcType=INTEGER}
     where commodityId = #{commodityid,jdbcType=INTEGER}
   </update>
+  <update id="deductStock" >
+    update commodity
+    set availableStock = availableStock - 1
+    where commodityId = #{commodityId,jdbcType=INTEGER} and availableStock > 0
+  </update>
 </mapper>

@@ -10,4 +10,9 @@ public interface CommodityDao {
 
     List<commodity> listCommoditiesByUserId(int userId);
 
+    int updateCommodity(commodity record);
+
+    int deductStock(int commodityId);
+
+
 }

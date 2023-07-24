@@ -8,4 +8,6 @@ public interface OrderDao {
     order getOrder(int orderId);
 
     order getOrderByOrderNum(String orderNum);
+
+    int updateOrder(order orderDetail);
 }

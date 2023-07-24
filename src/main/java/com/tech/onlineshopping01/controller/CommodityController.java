@@ -1,5 +1,6 @@
 package com.tech.onlineshopping01.controller;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.tech.onlineshopping01.db.dao.CommodityDao;
 import com.tech.onlineshopping01.db.dao.OnlineShopUserDao;
 import com.tech.onlineshopping01.db.po.commodity;
@@ -45,6 +46,13 @@ public class CommodityController {
         return "add_commodity_success";
 
 
+    }
+    @RequestMapping("/")
+    public String DefaultItems(Map<String, Object> resultMap) {
+        List<commodity> listOfItems = dao.listCommoditiesByUserId(1);
+        resultMap.put("itemList", listOfItems);
+        listOfItems.get(0).getCommodityname();
+        return "list_items";
     }
     @RequestMapping("/listItems/{userId}")
     public String listItems(@PathVariable("userId") int userId, Map<String, Object> resultMap) {

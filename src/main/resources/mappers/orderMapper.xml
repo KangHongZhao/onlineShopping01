@@ -94,7 +94,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tech.onlineshopping01.db.po.order">
-    update order
+    update onlineshopping.order
     <set>
       <if test="commodityid != null">
         commodityId = #{commodityid,jdbcType=INTEGER},
@@ -121,7 +121,7 @@
     where orderId = #{orderid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tech.onlineshopping01.db.po.order">
-    update order
+    update onlineshopping.order
     set commodityId = #{commodityid,jdbcType=INTEGER},
       orderNum = #{ordernum,jdbcType=VARCHAR},
       orderStatus = #{orderstatus,jdbcType=INTEGER},

@@ -26,4 +26,14 @@ public class CommodityDaoImpl implements CommodityDao {
     public List<com.tech.onlineshopping01.db.po.commodity> listCommoditiesByUserId(int userId) {
         return commoditymapper.listCommoditiesByUserId(userId);
     }
+
+    @Override
+    public int updateCommodity(commodity record) {
+        return commoditymapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int deductStock(int commodityId) {
+        return commoditymapper.deductStock(commodityId);
+    }
 }

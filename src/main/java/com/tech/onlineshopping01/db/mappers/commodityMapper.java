@@ -18,4 +18,8 @@ public interface commodityMapper {
     int updateByPrimaryKey(commodity record);
 
     List<commodity> listCommoditiesByUserId(int userId);
+
+    int deductStock(int commodityId);
+
+
 }

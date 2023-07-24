@@ -25,4 +25,10 @@ public class OrderDaoImpl implements OrderDao {
     public com.tech.onlineshopping01.db.po.order getOrderByOrderNum(String orderNum) {
         return order.getOrderByOrderNum(orderNum);
     }
+
+    @Override
+    public int updateOrder(com.tech.onlineshopping01.db.po.order orderDetail) {
+        return order.updateByPrimaryKey(orderDetail);
+    }
+
 }
