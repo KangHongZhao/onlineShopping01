@@ -25,6 +25,12 @@
     from commodity
     where sellerId = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="deductStockSp" parameterType="java.util.HashMap" statementType="CALLABLE">
+    CALL onlineshopping.deductStockSP(
+      #{commodityid,jdbcType=BIGINT,mode=IN},
+      #{res,jdbcType=INTEGER,mode=OUT}
+    )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from commodity
     where commodityId = #{commodityid,jdbcType=INTEGER}

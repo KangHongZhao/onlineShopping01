@@ -6,6 +6,7 @@ import com.tech.onlineshopping01.db.po.commodity;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -35,5 +36,14 @@ public class CommodityDaoImpl implements CommodityDao {
     @Override
     public int deductStock(int commodityId) {
         return commoditymapper.deductStock(commodityId);
+    }
+
+    @Override
+    public int deductStockSP(int commodityId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("commodityid", commodityId);
+        map.put("res", 0);
+        commoditymapper.deductStockSp(map);
+        return (int)map.getOrDefault("res", 0);
     }
 }

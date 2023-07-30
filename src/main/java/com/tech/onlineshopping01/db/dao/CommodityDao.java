@@ -15,4 +15,5 @@ public interface CommodityDao {
     int deductStock(int commodityId);
 
 
+    int deductStockSP(int commodityId);
 }

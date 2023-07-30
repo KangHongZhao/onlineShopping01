@@ -18,6 +18,9 @@ public class OrderService {
     OrderDao orderDao;
     @Resource
     CommodityDao commodityDao;
+
+    @Resource
+    RedisService redisService;
     public order processOrderAllInOneSql(int commodityId, int userId) {
         commodity com = commodityDao.getCommodity(commodityId);
         int availableStock = com.getAvailablestock();
@@ -77,6 +80,84 @@ public class OrderService {
             orderDetail.setPaytime(new Date());
             orderDao.updateOrder(orderDetail);
             return;
+        }
+    }
+
+    public order processOrderSP(int commodityId, int userId) {
+
+
+        int result = commodityDao.deductStockSP(commodityId);
+        if (result > 0) {
+            commodity com = commodityDao.getCommodity(commodityId);
+            order onlineOrder = order.builder()
+                    .orderamount((int)Math.floor(com.getPrice()))
+                    .commodityid(commodityId)
+                    .createtime(new Date())
+                    .orderstatus(1)
+                    .userid(userId)
+                    .ordernum(UUID.randomUUID().toString())
+                    .build();
+            orderDao.insertOrder(onlineOrder);
+            log.info("success created order, commodityId is" + commodityId);
+            return onlineOrder;
+        } else {
+            log.info("process order failed, due to no available stock, commodityId is : " + commodityId);
+            return null;
+        }
+
+    }
+
+
+    public order processOrderRedis(int commodityId, int userId) {
+
+
+        String redisKey = "commodityId:" + commodityId;
+        long result = redisService.stockDeduct(redisKey);
+        if (result >= 0) {
+            commodityDao.deductStock(commodityId);
+            commodity com = commodityDao.getCommodity(commodityId);
+            order onlineOrder = order.builder()
+                    .orderamount((int) Math.floor(com.getPrice()))
+                    .commodityid(commodityId)
+                    .createtime(new Date())
+                    .orderstatus(1)
+                    .userid(userId)
+                    .ordernum(UUID.randomUUID().toString())
+                    .build();
+            orderDao.insertOrder(onlineOrder);
+            log.info("success created order, commodityId is" + commodityId);
+            return onlineOrder;
+        } else {
+            log.info("process order failed, due to no available stock, commodityId is : " + commodityId);
+            return null;
+        }
+    }
+
+    public order processOrderDistributedLock(int commodityId, int userId) {
+
+
+        String lockKey = "lockCommodity:" + commodityId;
+        String requestId = UUID.randomUUID().toString();
+        boolean result = redisService.tryGetDistributedLock(lockKey, requestId, 10000);
+        if (result) {
+            log.info("process order success for commodity:" + commodityId);
+            commodityDao.deductStock(commodityId);
+            commodity com = commodityDao.getCommodity(commodityId);
+            order onlineOrder = order.builder()
+                    .orderamount((int) Math.floor(com.getPrice()))
+                    .commodityid(commodityId)
+                    .createtime(new Date())
+                    .orderstatus(1)
+                    .userid(userId)
+                    .ordernum(UUID.randomUUID().toString())
+                    .build();
+            orderDao.insertOrder(onlineOrder);
+            log.info("success created order, commodityId is" + commodityId);
+            redisService.releaseDistributedLock(lockKey, requestId);
+            return onlineOrder;
+        } else {
+            log.info("lock fail for commodity:" + commodityId);
+            return null;
         }
     }
 }

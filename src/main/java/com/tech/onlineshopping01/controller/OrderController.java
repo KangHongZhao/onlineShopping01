@@ -32,7 +32,10 @@ public class OrderController {
             @PathVariable("commodityId") int commodityId,
             Map<String, Object> resultMap
     ){
-        order onlineOrder = orderService.processOrderAllInOneSql(commodityId, userId);
+        //order onlineOrder = orderService.processOrderAllInOneSql(commodityId, userId);
+        //order onlineOrder = orderService.processOrderSP(commodityId, userId);
+        //order onlineOrder = orderService.processOrderRedis(commodityId, userId);
+        order onlineOrder = orderService.processOrderDistributedLock(commodityId, userId);
         if (onlineOrder == null) {
             return "error";
         }
